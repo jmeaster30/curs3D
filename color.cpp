@@ -59,7 +59,28 @@ Color::Color(float _r, float _g, float _b)
   g = _g;
   b = _b;
   
-  fg_channel = rand() % 3;
+  if(r < g)
+  {
+    if(r < b)
+    {
+      fg_channel = 0;
+    }
+    else
+    {
+      fg_channel = 2;
+    }
+  }
+  else
+  {
+    if(g < b)
+    {
+      fg_channel = 1;
+    }
+    else
+    {
+      fg_channel = 2;
+    }
+  }
   
   calculate();
 
@@ -69,11 +90,9 @@ Color::Color(float _r, float _g, float _b)
 Color::~Color(){}
 
 int Color::getColorPair(){
-  return fg + (8 * bg);
+  return bg + (8 * fg);
 }
 
 std::string Color::getSymbol(){ 
     return sym;
 }
-
-
