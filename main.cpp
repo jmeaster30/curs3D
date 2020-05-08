@@ -13,7 +13,7 @@ int main()
       float red = x / r->getWidth();
       float green = y / r->getHeight();
       //fprintf(stderr, "%d %d\n", red, green);
-      Color* c = new Color(red, green, 0.5);
+      Color* c = new Color(red, green, 1.0);
       r->drawPoint(x, y, *c);
       delete c;
     }

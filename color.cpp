@@ -2,16 +2,14 @@
 
 #include <cmath>
 #include <stdlib.h>
+#include <cstring>
 
-#define COLOR_BLACK   0
-#define COLOR_RED     1
-#define COLOR_GREEN   2
-#define COLOR_YELLOW  3
-#define COLOR_BLUE    4
-#define COLOR_MAGENTA 5
-#define COLOR_CYAN    6
-#define COLOR_WHITE   7
+//short grayscale
+// .:-=+*#%@
+//long grayscale
+// .'`^",:;Il!i><~+_-?][}{1)(|\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$
 
+/*
 void Color::calculate()
 {  
   float fg_value = (fg_channel == 0) ? r : ((fg_channel == 1) ? g : b);
@@ -51,6 +49,27 @@ void Color::calculate()
     fg = COLOR_WHITE;
     sym = " ";
   }
+}*/
+
+void Color::calculate()
+{
+  float grayscale = (0.3 * r) + (0.59 * g) + (0.11 * b);
+
+  const char* symscale = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+  int scale_len = strlen(symscale);
+
+  int index = floor(grayscale * (scale_len + 1));
+
+  if(index >= scale_len)
+  {
+    sym = " ";
+    bg = 2;
+  }
+  else
+  {
+    sym = symscale[index];
+    bg = 1;
+  }
 }
 
 Color::Color(float _r, float _g, float _b)
@@ -59,7 +78,7 @@ Color::Color(float _r, float _g, float _b)
   g = _g;
   b = _b;
   
-  if(r < g)
+  /*if(r < g)
   {
     if(r < b)
     {
@@ -80,7 +99,7 @@ Color::Color(float _r, float _g, float _b)
     {
       fg_channel = 2;
     }
-  }
+  }*/
   
   calculate();
 
@@ -90,7 +109,7 @@ Color::Color(float _r, float _g, float _b)
 Color::~Color(){}
 
 int Color::getColorPair(){
-  return bg + (8 * fg);
+  return bg;
 }
 
 std::string Color::getSymbol(){ 

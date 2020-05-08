@@ -32,15 +32,8 @@ void Renderer::init(){
     puts("START COLOR ERROR\n");
     exit(1);
   }
-  int counter = 0;
-  for(int bg = 0; bg < 8; bg++)
-  {
-    for(int fg = 0; fg < 8; fg++)
-    {
-      init_pair(counter, bg, fg);
-      counter++;
-    }
-  }
+  init_pair(1, COLOR_WHITE, COLOR_BLACK);
+  init_pair(2, COLOR_BLACK, COLOR_WHITE);
   clear();
 }
 
