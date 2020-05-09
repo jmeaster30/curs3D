@@ -16,8 +16,8 @@ void Renderer::init(){
   noecho();
   curs_set(0); //hides the cursor
   //when we do input use
-  raw(); //- for full control
-  //cbreak() - to allow control characters to still send a signal
+  //raw(); //- for full control
+  cbreak(); // - to allow control characters to still send a signal
   //keypad(stdscr, TRUE) - allows reading function keys, arrow key, etc
   
   //initialize colors
@@ -56,12 +56,101 @@ void Renderer::drawPoint(int x, int y, Color c)
   attroff(COLOR_PAIR(color_pair));
 }
 
+void Renderer::drawLine(int x0, int y0, int x1, int y1, Color c)
+{
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int D = 2 * dy - dx;
+  
+  int x = x0;
+  int y = y0;
+  for(; x <= x1; x++)
+  {
+    drawPoint(x, y, c);
+    if(D > 0)
+    {
+      y = y + 1;
+      D = D - 2 * dx;
+    }
+    D = D + 2 * dy;
+  }
+}
+
+void Renderer::drawLineLow(int x0, int y0, int x1, int y1, Color c)
+{
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int yi = 1;
+  if(dy < 0)
+  {
+    yi = -1;
+    dy = -dy;
+  }
+  int D = 2 * dy - dx;
+
+  int x = x0;
+  int y = y0;
+  for(; x <= x1; x++)
+  {
+    drawPoint(x, y, c);
+    if(D > 0)
+    {
+      y = y + yi;
+      D = D - 2 * dx;
+    }
+    D = D + 2 * dy;
+  }
+}
+
+void Renderer::drawLineHigh(int x0, int y0, int x1, int y1, Color c)
+{
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int xi = 1; 
+  if(dx < 0)
+  {
+    xi = -1;
+    dx = -dx;
+  }
+  int D = 2 * dx - dy;
+  
+  int x = x0;
+  int y = y0;
+  for(; y <= y1; y++)
+  {
+    drawPoint(x, y, c);
+    if(D > 0)
+    {
+      x = x + xi;
+      D = D - 2 * dy;
+    }
+    D = D + 2 * dx;
+  }
+}
+
 void Renderer::drawString(int x, int y, std::string s)
 {
   if(x < 0 || x >= mWidth || y < 0 || y >= mHeight)
     return;
   //mvprintw(0, 0, "%i %i", COLOR_BLACK, COLOR_WHITE);
   mvprintw(y, x, s.c_str());
+}
+
+void Renderer::drawString(int x, int y, std::string s, ...)
+{
+  va_list args;
+  va_start(args, s);
+
+  if(x < 0 || x >= mWidth || y < 0 || y >= mHeight)
+    return;
+  //mvprintw(0, 0, "%i %i", COLOR_BLACK, COLOR_WHITE);
+  move(y, x);
+  vprintf(s.c_str(), args);
+  va_end(args);
+}
+
+void Renderer::clearScreen(){
+  clear();
 }
 
 void Renderer::updateScreen(){
