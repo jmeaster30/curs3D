@@ -1,5 +1,7 @@
 #include "renderer.h"
 
+#include <cstdlib> // for abs()
+
 Renderer::Renderer()
 {
   init();
@@ -58,21 +60,20 @@ void Renderer::drawPoint(int x, int y, Color c)
 
 void Renderer::drawLine(int x0, int y0, int x1, int y1, Color c)
 {
-  int dx = x1 - x0;
-  int dy = y1 - y0;
-  int D = 2 * dy - dx;
-  
-  int x = x0;
-  int y = y0;
-  for(; x <= x1; x++)
-  {
-    drawPoint(x, y, c);
-    if(D > 0)
-    {
-      y = y + 1;
-      D = D - 2 * dx;
+  int ydiff = abs(y1 - y0);
+  int xdiff = abs(x1 - x0);
+  if(ydiff < xdiff){
+    if(x0 > x1){
+      drawLineLow(x1, y1, x0, y0, c);
+    } else {
+      drawLineLow(x0, y0, x1, y1, c);
     }
-    D = D + 2 * dy;
+  } else {
+    if(y0 > y1){
+      drawLineHigh(x1, y1, x0, y0, c);
+    } else {
+      drawLineHigh(x0, y0, x1, y1, c);
+    }
   }
 }
 
@@ -150,7 +151,7 @@ void Renderer::drawString(int x, int y, std::string s, ...)
 }
 
 void Renderer::clearScreen(){
-  erase();
+  erase(); //clear waits until the next refresh to clear the screen so we need to use erase
 }
 
 void Renderer::updateScreen(){
