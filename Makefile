@@ -1,5 +1,5 @@
 COMP=g++
-PROG=render
+PROG=curs3d
 FLAGS=-lncurses
 OBJS= main.o renderer.o color.o engine.o
 

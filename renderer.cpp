@@ -150,7 +150,7 @@ void Renderer::drawString(int x, int y, std::string s, ...)
 }
 
 void Renderer::clearScreen(){
-  clear();
+  erase();
 }
 
 void Renderer::updateScreen(){

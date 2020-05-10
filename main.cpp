@@ -6,21 +6,22 @@ int main()
   //fprintf(stderr, "starting\n");
   Engine* e = new Engine();
   
-  double ups = 10.0;
-  std::chrono::milliseconds ustep = std::chrono::milliseconds((long)((1 / ups) * 1000));
+  double ups = 30.0;
+  long ustep = (long)((1 / ups) * 1000000);
 
   auto old_time = std::chrono::high_resolution_clock::now();
-  std::chrono::milliseconds accum = std::chrono::milliseconds(0);
+  long accum = 0;
   while(true)
   {
     auto curr_time = std::chrono::high_resolution_clock::now();
     auto delta = curr_time - old_time;
     old_time = curr_time;
-    accum += std::chrono::duration_cast<std::chrono::milliseconds>(delta);
+    accum += std::chrono::duration_cast<std::chrono::microseconds>(delta).count();
+    //fprintf(stderr, "%i accum - %i ustep\n", accum, ustep);
 
-    while(accum > ustep)
+    while(accum >= ustep)
     {
-      fprintf(stderr, "update\n");
+      //fprintf(stderr, "update\n");
       e->update();
       accum -= ustep;
     }

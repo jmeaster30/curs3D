@@ -49,7 +49,7 @@ void Engine::update()
 
 void Engine::render()
 {
-  //renderer->clearScreen();
+  renderer->clearScreen();
 
   renderer->drawLine(x1, y1, x2, y2, *col);
   
