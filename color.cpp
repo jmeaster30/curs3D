@@ -72,6 +72,15 @@ void Color::calculate()
   }
 }
 
+Color::Color(float _v)
+{
+  r = _v;
+  g = _v;
+  b = _v;
+
+  calculate();
+}
+
 Color::Color(float _r, float _g, float _b)
 {
   r = _r;
@@ -107,6 +116,17 @@ Color::Color(float _r, float _g, float _b)
 }
 
 Color::~Color(){}
+
+Color* Color::blend(Color c0, Color c1, float factor)
+{
+  if(factor > 1) factor = 1;
+  if(factor < 0) factor = 0;
+  float inv = 1 - factor;
+  float r = (c0.r * factor) + (c1.r * inv);
+  float g = (c0.g * factor) + (c1.g * inv);
+  float b = (c0.b * factor) + (c1.b * inv);
+  return new Color(r, g, b);
+}
 
 int Color::getColorPair(){
   return bg;

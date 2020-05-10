@@ -15,7 +15,9 @@ class Renderer
     
     //helper functions for line drawing
     void drawLineLow(int x0, int y0, int x1, int y1, Color c);
+    void drawLineLow(int x0, int y0, int x1, int y1, Color c0, Color c1);
     void drawLineHigh(int x0, int y0, int x1, int y1, Color c);
+    void drawLineHigh(int x0, int y0, int x1, int y1, Color c0, Color c1);
 
   public:
     Renderer();
@@ -30,8 +32,10 @@ class Renderer
     int getColorPair(int fg, int bg);
 
     void drawPoint(int x, int y, Color c);
-    void drawLine(int x0, int y0, int x1, int y1, Color c);
     
+    void drawLine(int x0, int y0, int x1, int y1, Color c);
+    void drawLine(int x0, int y0, int x1, int y1, Color c0, Color c1);
+
     void drawString(int x, int y, std::string s);
     void drawString(int x, int y, std::string s, ...);
 

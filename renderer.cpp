@@ -51,8 +51,6 @@ void Renderer::drawPoint(int x, int y, Color c)
   int color_pair = c.getColorPair();
   std::string sym = c.getSymbol();
   
-  //mvprintw(0, 0, "%i %s", color_pair, sym.c_str());
-
   attron(COLOR_PAIR(color_pair));  
   mvprintw(y, x, sym.c_str());
   attroff(COLOR_PAIR(color_pair));
@@ -120,6 +118,85 @@ void Renderer::drawLineHigh(int x0, int y0, int x1, int y1, Color c)
   for(; y <= y1; y++)
   {
     drawPoint(x, y, c);
+    if(D > 0)
+    {
+      x = x + xi;
+      D = D - 2 * dy;
+    }
+    D = D + 2 * dx;
+  }
+}
+
+void Renderer::drawLine(int x0, int y0, int x1, int y1, Color c0, Color c1)
+{
+  int ydiff = abs(y1 - y0);
+  int xdiff = abs(x1 - x0);
+  if(ydiff < xdiff){
+    if(x0 > x1){
+      drawLineLow(x1, y1, x0, y0, c1, c0);
+    } else {
+      drawLineLow(x0, y0, x1, y1, c0, c1);
+    }
+  } else {
+    if(y0 > y1){
+      drawLineHigh(x1, y1, x0, y0, c1, c0);
+    } else {
+      drawLineHigh(x0, y0, x1, y1, c0, c1);
+    }
+  }
+}
+
+void Renderer::drawLineLow(int x0, int y0, int x1, int y1, Color c0, Color c1)
+{
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int yi = 1;
+  if(dy < 0)
+  {
+    yi = -1;
+    dy = -dy;
+  }
+  int D = 2 * dy - dx;
+
+  int x = x0;
+  int y = y0;
+  float b = 0;
+  for(; x <= x1; x++)
+  {
+    float factor = b / abs(dx);
+    b++;
+    Color* c = Color::blend(c0, c1, factor);
+    drawPoint(x, y, *c);
+    if(D > 0)
+    {
+      y = y + yi;
+      D = D - 2 * dx;
+    }
+    D = D + 2 * dy;
+  }
+}
+
+void Renderer::drawLineHigh(int x0, int y0, int x1, int y1, Color c0, Color c1)
+{
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int xi = 1; 
+  if(dx < 0)
+  {
+    xi = -1;
+    dx = -dx;
+  }
+  int D = 2 * dx - dy;
+  
+  int x = x0;
+  int y = y0;
+  float b = 0;
+  for(; y <= y1; y++)
+  {
+    float factor = b / abs(dy);
+    b++;
+    Color* c = Color::blend(c0, c1, factor);
+    drawPoint(x, y, *c);
     if(D > 0)
     {
       x = x + xi;

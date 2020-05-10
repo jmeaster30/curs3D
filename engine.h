@@ -16,7 +16,14 @@ class Engine{
     int vx2;
     int vy2;
 
-    Color* col;
+    int x3;
+    int y3;
+    int vx3;
+    int vy3;
+    
+    Color* col1;
+    Color* col2;
+    Color* col3;
 
     Renderer* renderer;
 

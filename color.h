@@ -21,8 +21,15 @@ class Color{
     void calculate();
 
   public:
+    Color(float _v);
     Color(float _r, float _g, float _b);
     ~Color();    
+    
+    static Color* blend(Color c0, Color c1, float factor);
+
+    float red(){ return r; }
+    float green(){ return g; }
+    float blue(){ return b; }
 
     int getColorPair();
     std::string getSymbol();
