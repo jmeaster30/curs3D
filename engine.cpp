@@ -3,7 +3,12 @@
 Engine::Engine()
 {
   renderer = new Renderer();
-  
+    
+  if(renderer == NULL)
+  {
+    fprintf(stderr, "renderer null\n");
+  }
+    
   x1 = 20;
   y1 = 10;
   vx1 = 1;
@@ -19,9 +24,9 @@ Engine::Engine()
   vx3 = -1;
   vy3 = 1;
 
-  col1 = new Color(0.8);
-  col2 = new Color(0.2);
-  col3 = new Color(0.6);
+  col1 = new Color(1.0, 1.0, 0.0);
+  col2 = new Color(0.5, 0.0, 0.5);
+  col3 = new Color(0.0, 1.0, 1.0);
 }
 
 Engine::~Engine()
@@ -71,10 +76,12 @@ void Engine::update()
 void Engine::render()
 {
   renderer->clearScreen();
+  
+  //renderer->drawTriangleOutline(x1, y1, x2, y2, x3, y3, *col3);
 
-  renderer->drawLine(x1, y1, x2, y2, *col1, *col2);
-  renderer->drawLine(x2, y2, x3, y3, *col2, *col3);
-  renderer->drawLine(x3, y3, x1, y1, *col3, *col1);
+  renderer->drawTriangle(x1, y1, x2, y2, x3, y3, *col1, *col2, *col3);
+  
+  //renderer->drawTriangleOutline(x1 + 15, y1, x2 + 15, y2, x3 + 15, y3, *col1, *col2, *col3);
 
   renderer->updateScreen();
 }

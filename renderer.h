@@ -36,6 +36,14 @@ class Renderer
     void drawLine(int x0, int y0, int x1, int y1, Color c);
     void drawLine(int x0, int y0, int x1, int y1, Color c0, Color c1);
 
+    void drawTriangleOutline(int x0, int y0, int x1, int y1, int x2, int y2, Color c0);
+    void drawTriangleOutline(int x0, int y0, int x1, int y1, int x2, int y2, Color c0, Color c1, Color c2);
+    void drawTriangle(int x0, int y0, int x1, int y1, int x2, int y2, Color c0);
+    void drawTriangle(int x0, int y0, int x1, int y1, int x2, int y2, Color c0, Color c1, Color c2);
+
+    void drawRectangleOutline(int x0, int y0, int width, int height, Color c0);
+    void drawRectangleOutline(int x0, int y0, int width, int height, Color c0, Color c1, Color c2, Color c3);
+
     void drawString(int x, int y, std::string s);
     void drawString(int x, int y, std::string s, ...);
 
